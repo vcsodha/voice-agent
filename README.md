@@ -5,6 +5,10 @@ assistant mid-sentence, then say "continue" to make it pick up where you cut
 it off) and RAG grounding over your own documents. Everything except the
 Claude API call runs locally for free.
 
+**Live demo:** it runs on Vercel behind an access code, so strangers can't run
+up the API bill. Ask Vidisha for the link, or run it yourself with the steps
+below.
+
 ## Architecture
 
 ```
@@ -168,9 +172,9 @@ Leave them out and nothing is limited, which is what you want on your laptop.
 - Hobby includes 4 CPU-hours a month. My estimate is that this covers a bit more
   than a thousand questions; `MAX_TURNS_PER_DAY=40` keeps you under it. If you go
   over, Vercel pauses the project for the rest of the 30 days instead of billing you.
-- The container runtime is a beta feature and this has not been deployed to a
-  real Vercel account by the author of this code, so the first deploy may need
-  a tweak. Look at the build log and runtime log in the Vercel dashboard first.
+- This is running on a Hobby plan (deployed and tested in November 2026). The
+  container runtime is still a beta feature, so if a deploy fails, read the
+  build log and the runtime log in the Vercel dashboard first.
 - Hobby plans are for personal, non-commercial use, which a portfolio project is.
 - Vercel keeps the built image in its container registry and charges $0.10 per
   GB of storage. The image is about 1.2 GB, so expect cents a month at most.
@@ -189,6 +193,8 @@ Leave them out and nothing is limited, which is what you want on your laptop.
   Deployment Protection in the Vercel project and turn Vercel Authentication
   off for the production domain. Share the short project address
   (`your-project.vercel.app`), not the long one with random letters.
+- To pick a nicer address: in the project, open Domains, click Edit on the
+  `.vercel.app` domain, type a new name and choose "Redirect old domain to new".
 
 Prefer another host? Any host that runs a Docker image works: build it, set
 the same environment variables and open port 8000. If the page itself lives
