@@ -5,9 +5,11 @@ assistant mid-sentence, then say "continue" to make it pick up where you cut
 it off) and RAG grounding over your own documents. Everything except the
 Claude API call runs locally for free.
 
-**Live demo:** it runs on Vercel behind an access code, so strangers can't run
-up the API bill. Ask Vidisha for the link, or run it yourself with the steps
-below.
+**Live demo:** https://vidisha-voice-agent.vercel.app
+
+It runs on Vercel behind an access code, so strangers can't run up the API
+bill. The page loads for everyone, but talking needs the code: ask Vidisha for
+it, or run it yourself with the steps below.
 
 ## Architecture
 
