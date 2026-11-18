@@ -172,6 +172,23 @@ Leave them out and nothing is limited, which is what you want on your laptop.
   real Vercel account by the author of this code, so the first deploy may need
   a tweak. Look at the build log and runtime log in the Vercel dashboard first.
 - Hobby plans are for personal, non-commercial use, which a portfolio project is.
+- Vercel keeps the built image in its container registry and charges $0.10 per
+  GB of storage. The image is about 1.2 GB, so expect cents a month at most.
+- The limits (`MAX_TURNS_PER_DAY`, `MAX_CONNECTIONS`) are counted inside each
+  running server. If Vercel starts a second copy under load, each copy counts
+  on its own, which is another reason to set the spend limit in step 4.
+- If the build fails with "exceeds the maximum uncompressed size limit", the
+  image is bigger than your project's function limit. New projects allow large
+  functions already (that is a project setting, not an environment variable you
+  can add). To see what is big, add `VERCEL_ANALYZE_BUILD_OUTPUT=1` and read the build log.
+- If the build works but the site shows 500 and the runtime log says the speech
+  model cannot be found ("outgoing traffic has been disabled"), the models are
+  not where the server looks. The `Dockerfile` pins those folders (`HF_HOME`, and
+  `HOME` in the start command) and checks them while building, so keep both lines.
+- If visitors see a Vercel login page instead of your app, open Settings, then
+  Deployment Protection in the Vercel project and turn Vercel Authentication
+  off for the production domain. Share the short project address
+  (`your-project.vercel.app`), not the long one with random letters.
 
 Prefer another host? Any host that runs a Docker image works: build it, set
 the same environment variables and open port 8000. If the page itself lives

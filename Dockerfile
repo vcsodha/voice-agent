@@ -1,12 +1,16 @@
 FROM python:3.11-slim
 
-# HOME is inside /app so the models we download below are found again at
-# runtime, whichever user the host runs the container as
+# Where the models live is pinned here, not left to whatever the host decides.
+# HF_HOME is where the speech model (faster-whisper) is kept, and HOME is where
+# chroma keeps its small embedding model. The start command at the bottom sets
+# HOME again, because some hosts start the container with a different one.
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     HOME=/app/home \
+    HF_HOME=/app/hf-cache \
     PORT=8000 \
     CHROMA_PATH=/tmp/chroma \
+    ANONYMIZED_TELEMETRY=False \
     LOG_TRANSCRIPTS=0
 
 WORKDIR /app
@@ -25,6 +29,11 @@ RUN python -c "from chromadb.utils.embedding_functions import DefaultEmbeddingFu
 RUN chmod -R a+rX /app
 ENV HF_HUB_OFFLINE=1
 
+# build check: the speech model must be found even when HOME is something else
+# (this is what broke the first Vercel deploy). If it is not, the build stops
+# here instead of the site failing later.
+RUN HOME=/nonexistent python -c "from faster_whisper import WhisperModel; WhisperModel('base.en', device='cpu', compute_type='int8'); print('speech model found')"
+
 COPY backend /app/backend
 COPY frontend /app/frontend
 COPY data /app/data
@@ -32,5 +41,6 @@ COPY data /app/data
 WORKDIR /app/backend
 EXPOSE 8000
 
-# the host can choose the port by setting PORT (docker compose uses 8000)
-CMD ["sh", "-c", "exec uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
+# the host can choose the port by setting PORT (docker compose uses 8000);
+# HOME is set again here so chroma finds its model whoever runs the container
+CMD ["sh", "-c", "export HOME=/app/home; exec uvicorn main:app --host 0.0.0.0 --port ${PORT}"]

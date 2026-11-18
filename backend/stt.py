@@ -3,6 +3,7 @@ Speech-to-text using faster-whisper (local, free, CPU-friendly).
 """
 import io
 import logging
+import os
 import numpy as np
 from faster_whisper import WhisperModel
 
@@ -18,11 +19,19 @@ def load_model() -> WhisperModel:
     global _model
     if _model is None:
         logger.info(f"Loading faster-whisper model '{config.WHISPER_MODEL_SIZE}'...")
-        _model = WhisperModel(
-            config.WHISPER_MODEL_SIZE,
-            device=config.WHISPER_DEVICE,
-            compute_type=config.WHISPER_COMPUTE_TYPE,
-        )
+        try:
+            _model = WhisperModel(
+                config.WHISPER_MODEL_SIZE,
+                device=config.WHISPER_DEVICE,
+                compute_type=config.WHISPER_COMPUTE_TYPE,
+            )
+        except Exception:
+            # on a host the usual cause is that the model is not in the folder we look in
+            logger.error(
+                f"Could not load the whisper model. HOME={os.environ.get('HOME')} "
+                f"HF_HOME={os.environ.get('HF_HOME')}"
+            )
+            raise
         logger.info("Whisper model loaded.")
     return _model
 
