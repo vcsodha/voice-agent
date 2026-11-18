@@ -1,0 +1,10 @@
+.git
+.env
+venv
+**/__pycache__
+**/.pytest_cache
+backend/tests
+backend/pytest.ini
+backend/requirements-dev.txt
+data/chroma
+models

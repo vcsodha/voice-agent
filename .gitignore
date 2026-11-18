@@ -1,0 +1,19 @@
+# python
+__pycache__/
+*.pyc
+venv/
+.venv/
+.pytest_cache/
+
+# secrets
+.env
+
+# downloaded / generated, too big or machine-specific for git
+models/
+data/chroma/
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/
+.vercel

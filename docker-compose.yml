@@ -1,0 +1,20 @@
+services:
+  voice-agent:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # docker compose reads these from the .env file next to this file
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-haiku-5-5}
+      - WHISPER_MODEL_SIZE=${WHISPER_MODEL_SIZE:-base.en}
+      # on your own machine it's handy to see what it heard in the log
+      - LOG_TRANSCRIPTS=${LOG_TRANSCRIPTS:-1}
+      # only needed for a public link, see "Put it online" in the README
+      - ACCESS_CODE=${ACCESS_CODE:-}
+      - MAX_TURNS_PER_SESSION=${MAX_TURNS_PER_SESSION:-0}
+      - MAX_TURNS_PER_DAY=${MAX_TURNS_PER_DAY:-0}
+      - MAX_CONNECTIONS=${MAX_CONNECTIONS:-0}
+    volumes:
+      # your knowledge base files live here, edit them on your own machine
+      - ./data:/app/data

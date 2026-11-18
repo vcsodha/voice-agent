@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Voice Agent</title>
+<meta name="description" content="A voice assistant you can interrupt. Say continue and it picks up from the last sentence you heard.">
+<meta name="theme-color" content="#2230dc">
+<link rel="preload" href="fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page" id="page">
+
+  <header class="top wrap">
+    <span class="brand">Voice agent</span>
+    <p class="byline">
+      <span id="ownerLine" hidden></span>
+      <a id="githubLink" href="#" hidden>Source on GitHub</a>
+    </p>
+  </header>
+
+  <section class="hero wrap">
+    <div class="hero-text">
+      <div class="hero-inner">
+        <h1>A voice assistant that knows what you actually heard.</h1>
+        <p class="lede">Ask out loud and cut in whenever you like. Say &ldquo;wait&rdquo; to pause it, then &ldquo;continue&rdquo; and it picks up from the last sentence you heard.</p>
+      </div>
+    </div>
+
+    <div class="start-row">
+      <button class="start" id="startBtn" type="button" data-state="idle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+        </svg>
+        <span id="startLabel">Start talking</span>
+      </button>
+      <p class="hint">Uses your microphone. What you say is sent to Claude to write the answer.</p>
+    </div>
+    <p class="notice" id="notice" role="alert" hidden></p>
+  </section>
+
+  <section class="stage" aria-label="Conversation">
+    <canvas class="wave" id="wave" aria-hidden="true"></canvas>
+    <div class="talk wrap">
+      <p class="status" id="status" role="status">Ready when you are.</p>
+      <div class="captions" id="captions" aria-live="polite"></div>
+    </div>
+  </section>
+
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

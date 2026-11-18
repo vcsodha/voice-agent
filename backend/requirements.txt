@@ -1,0 +1,24 @@
+# Checked against the latest releases on PyPI on 2026-11-17 and installed
+# in clean Python 3.11 / 3.12 environments. Python 3.11 or 3.12 recommended.
+
+# web server
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+python-dotenv>=1.0,<2
+
+# speech to text (local, free)
+faster-whisper>=1.2,<2
+
+# text to speech (local, free). 1.8 has the synthesize_wav() API we use
+piper-tts>=1.8,<2
+
+# voice activity detection. "-wheels" version ships prebuilt binaries, so you
+# don't need a C compiler (the plain "webrtcvad" package has no wheels at all)
+webrtcvad-wheels>=2.0.14,<3
+
+# knowledge base. chroma includes a small local embedding model (all-MiniLM-L6-v2),
+# so we don't need sentence-transformers / PyTorch
+chromadb>=1.5,<2
+
+# Claude
+anthropic>=2.10,<3

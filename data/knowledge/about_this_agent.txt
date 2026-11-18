@@ -1,0 +1,20 @@
+This voice agent is a demo project built by Vidisha Sodha. It combines
+speech-to-text (faster-whisper), a large language model (Claude, by Anthropic),
+and text-to-speech (Piper) into a real-time conversational pipeline.
+
+The agent listens continuously through a WebSocket connection. It uses voice
+activity detection (VAD) to figure out when the user has finished a sentence,
+transcribes the audio locally, sends the text to Claude along with any
+relevant context retrieved from this knowledge base, and speaks the reply
+back using a local neural text-to-speech voice.
+
+A key feature is barge-in: while the assistant is speaking, the microphone
+stays active. If the VAD detects the user has started talking again, the
+server immediately cancels the in-progress response and starts listening
+for the new question, so the conversation feels natural instead of
+walkie-talkie style.
+
+Replace the files in data/knowledge/ with your own documents (.txt or .md)
+to ground the assistant in whatever domain you want — product docs, a
+personal FAQ, class notes, anything. The RAG pipeline re-ingests this
+folder every time the server starts.
